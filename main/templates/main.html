@@ -1,7 +1,27 @@
 <h1>{{ app_name }}</h1>
 
-<h4>Name: </h4>
+<h4> </h4>
 <p>{{ name }}</p>
 
-<h4>Class: </h4>
+<h4></h4>
 <p>{{ class }}</p>
+
+<h2>Our Collection</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+    {% for p in products %} 
+        <div style="padding: 10px; width: 220px; text-align: center; border: 1px solid transparent;">
+            <img src="{{ p.thumbnail }}" alt="{{ p.name }}" width="120"
+                style="width: 100%; max-width: 180px; height: 200px; object-fit: contain; display: block; margin: 0 auto;">
+            <br>
+            <strong>{{ p.name }}</strong><br>
+            Rp {{ p.price }}<br>
+            {{ p.category }}<br>
+            <div style="min-height: 40px;">{{ p.description }} </div> 
+            {% if p.is_featured %}
+                <em>Featured Product!</em>
+            {% endif %}
+        </div> 
+    {% empty %}
+        <p>Currently no items in stock.</p>
+    {% endfor %}
+</div>
