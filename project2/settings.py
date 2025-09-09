@@ -33,7 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "maharani-anindya-project2.pbp.cs.ui.ac.id",
+    "http://127.0.0.1:8000/",
 ]
 # Application definition
 
