@@ -7,18 +7,16 @@
 <p>{{ class }}</p>
 
 <h2>Our Collection</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
-    {% for prod in products %} 
-        <div style="padding: 10px; width: 220px; text-align: center; border: 1px solid transparent;">
-            <img src="{{ p.thumbnail }}" alt="{{ p.name }}" width="120"
-                style="width: 100%; max-width: 180px; height: 200px; object-fit: contain; display: block; margin: 0 auto;">
-            <br>
-            <strong>{{ prod.name }}</strong><br>
-            Rp {{ prod.price }}<br>
-            {{ prod.category }}<br>
-            <div style="min-height: 40px;">{{ p.description }} </div> 
-            {% if prod.is_featured %}
-                <em>Featured Product!</em>
+<div> 
+    {% for p in products %} 
+        <div> 
+            <img src="{{ p.thumbnail }}" alt="{{ p.name }}" width="120">
+            <strong>{{ p.name }}</strong><br>
+            Rp {{ p.price }}<br>
+            {{ p.category }}<br>
+            <p>{{ p.description }}</p>
+            {% if p.is_featured %}
+                Featured Product!
             {% endif %}
         </div> 
     {% empty %}
