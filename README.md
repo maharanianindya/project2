@@ -11,7 +11,13 @@ finally, using the PWS terminal, I ran migrate, and created a superuser. Then I 
 
 2. Create a diagram showing the client request to the Django-based web application and its response, and explain the relationship between urls.py, views.py, models.py, and the HTML file in the diagram.
 
-  
+        HTTP Request         →     URLS (urls.py)
+                                          ↓
+Model (models.py) ← read/write data → views.py → HTTP Response (HTML)
+                                          ↑
+                                      main.html
+
+
 3. Explain the role of settings.py in a Django project!
 The settings.py file configures the Django project by defining apps, middleware, templates, database connections, static files, and security options. It serves as the project's main configuration, making sure the application works properly in both development and production settings. 
 
