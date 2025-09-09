@@ -36,18 +36,6 @@ ALLOWED_HOSTS = [
     "maharani-anindya-project2.pbp.cs.ui.ac.id"
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://maharani-anindya-project2.pbp.cs.ui.ac.id",
-]
-
-STATIC_URL = "/static/"
-from pathlib import Path
-BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -153,6 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
