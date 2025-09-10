@@ -6,20 +6,4 @@
 <h4></h4>
 <p>{{ class }}</p>
 
-<h2>Our Collection</h2>
-<div> 
-    {% for p in products %} 
-        <div> 
-            <img src="{{ p.thumbnail }}" alt="{{ p.name }}" width="120">
-            <strong>{{ p.name }}</strong><br>
-            Rp {{ p.price }}<br>
-            {{ p.category }}<br>
-            <p>{{ p.description }}</p>
-            {% if p.is_featured %}
-                Featured Product!
-            {% endif %}
-        </div> 
-    {% empty %}
-        <p>Currently no items in stock.</p>
-    {% endfor %}
-</div>
+
