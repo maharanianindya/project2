@@ -17,6 +17,7 @@ Model (models.py) ← read/write data → views.py → HTTP Response (HTML)
                                           ↑
                                       main.html
 
+<img width="1034" height="254" alt="image" src="https://github.com/user-attachments/assets/0cae6ab9-59ba-488b-bcb9-6141525c023b" />
 
 3. Explain the role of settings.py in a Django project!
 The settings.py file configures the Django project by defining apps, middleware, templates, database connections, static files, and security options. It serves as the project's main configuration, making sure the application works properly in both development and production settings. 
