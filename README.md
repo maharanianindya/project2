@@ -11,11 +11,6 @@ finally, using the PWS terminal, I ran migrate, and created a superuser. Then I 
 
 2. Create a diagram showing the client request to the Django-based web application and its response, and explain the relationship between urls.py, views.py, models.py, and the HTML file in the diagram.
 
-        HTTP Request         →     URLS (urls.py)
-                                          ↓
-Model (models.py) ← read/write data → views.py → HTTP Response (HTML)
-                                          ↑
-                                      main.html
 
 <img width="1034" height="254" alt="image" src="https://github.com/user-attachments/assets/0cae6ab9-59ba-488b-bcb9-6141525c023b" />
 
