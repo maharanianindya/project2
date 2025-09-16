@@ -23,7 +23,7 @@ def add_product(request):
     context = {'form': form}
     return render(request, "add_product.html", context)
 
-def product_detail(request,id):
+def product_detail(request, id):
     product = get_object_or_404(Product, pk=id)
     context = {
         'product': product
