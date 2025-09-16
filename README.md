@@ -7,7 +7,6 @@ finally, I deployed the application to PWS with git push pws master.
 
 2. Create a diagram showing the client request to the Django-based web application and its response, and explain the relationship between urls.py, views.py, models.py, and the HTML file in the diagram.
 
-
 <img width="1034" height="254" alt="image" src="https://github.com/user-attachments/assets/0cae6ab9-59ba-488b-bcb9-6141525c023b" />
 
 urls.py directs a user's request to the right function in views.py, which may use models.py to get or save the data. The views then sends that data to an HTML template, which displays the final page the user sees in the browser. 
