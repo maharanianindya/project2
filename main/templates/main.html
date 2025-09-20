@@ -33,7 +33,7 @@
 <div>
     <h2><a href="{% url 'main:product_detail' product.id %}">{{ product.name }}</a></h2>
 
-    <p><b>{{ product.get_category_display }}</b>{% if product.is_featured %} | 
+    <p><b>{{ product.category }}</b>{% if product.is_featured %} | 
     <b>Featured</b>{% endif %} | <b>Price:</b> Rp {{ product.price }}</p>
 
     {% if product.thumbnail %}
@@ -43,7 +43,7 @@
 
     <p>{{ product.description|truncatewords:25 }}...</p>
 
-     <p><a href="{% url 'main:product_detail' product.id %}"><button>Detail</button></a></p>
+     <p><a href="{% url 'main:product_detail' product.id %}"><button>Description</button></a></p>
 </div>
 
 <hr>
