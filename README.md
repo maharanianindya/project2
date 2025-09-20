@@ -1,5 +1,6 @@
 PWS Application : https://maharani-anindya-project2.pbp.cs.ui.ac.id/
 
+## Assignment 2
 1. Explain how you implemented the checklist above step-by-step
 
 I started by creating a new Django project and an app main. after that, I register the main application on the project, by adding 'main' inside settings.py. Then, I add a urls.py file inside the main app, and link it in project2/urls.py with path('', include('main.urls')) so requests to the root URL are directed to the main application. Next, I create a model in models.py called Product with all required attributes: name, price, description, thumbnail, category, is_featured. then, I ran makemigrations to create model migrations, ran migrate to apply migrations to the local database. After that, I registered the model in admin.py. In views.py, I create a function called show_main to fetch all products from the database and include data such as the app name, my name, my class. Then, I make a templates to loop through the product list and display each item. If none exist, loop through {% empty %} . after that, I create routing in urls.py of the main app to map the function in views.py 
