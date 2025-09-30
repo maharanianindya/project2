@@ -1,4 +1,4 @@
-PWS Application : https://maharani-anindya-project2.pbp.cs.ui.ac.id/
+PWS Application : https://maharani-anindya-queenkicks.pbp.cs.ui.ac.id/
 
 ## Assignment 2
 1. Explain how you implemented the checklist above step-by-step
