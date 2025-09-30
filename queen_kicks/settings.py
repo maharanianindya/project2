@@ -33,11 +33,11 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "maharani-anindya-project2.pbp.cs.ui.ac.id"
+    "maharani-anindya-queenkicks.pbp.cs.ui.ac.id"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://maharani-anindya-project2.pbp.cs.ui.ac.id"
+    "https://maharani-anindya-queenkicks.pbp.cs.ui.ac.id"
 ]
 # Application definition
 
