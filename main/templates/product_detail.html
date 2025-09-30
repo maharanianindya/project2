@@ -1,22 +1,79 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>{{ product.name }} - Queen Kicks</title>
+{% endblock meta %}
+
 {% block content %}
-<p><a href="{% url 'main:show_main' %}"><button>← Back to Product List</button></a></p>
+<div class="bg-gray-50 w-full min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Back Navigation -->
+        <div class="mb-6">
+            <a href="{% url 'main:show_main' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                ← Back to Products
+            </a>
+        </div>
+        
+        <!-- Article -->
+<article class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+  <!-- 2-column layout: image left, details right -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 sm:p-8">
 
-<h1>{{ product.name }}</h1>
-<p><b>{{ product.category }}</b>{% if product.is_featured %} | 
-    <b>Featured</b>{% endif %} | <b>Price:</b> Rp {{ product.price }}
+    <!-- LEFT: IMAGE -->
+    <section class="space-y-4">
+      {% if product.thumbnail %}
+        <div class="rounded-lg overflow-hidden bg-gray-50">
+          {# keep your image; only layout changes #}
+          <img src="{{ product.thumbnail }}" alt="{{ product.name }}"
+               class="w-full h-auto object-contain">
+        </div>
+      {% endif %}
+    </section>
 
-{% if product.thumbnail %}
-<img src="{{ product.thumbnail }}" alt="Product thumbnail" width="300">
-<br /><br />
-{% endif %}
+    <!-- RIGHT: DETAILS -->
+    <aside class="self-start lg:sticky lg:top-24">
+      <!-- Header (badges + title) -->
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-pink-600 text-white">
+          {{ product.get_category_display }}
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-pink-600 text-white">
+          Rp {{ product.price }}
+        </span>
+        {% if product.is_featured %}
+          <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
+            Featured
+          </span>
+        {% endif %}
+      </div>
 
-<p>{{ product.description }}</p>
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight mb-6">
+        {{ product.name }}
+      </h1>
 
-{% if product.user %}
-    <p>Author: {{ product.user.username }}</p>
-{% else %}
-    <p>Author: Anonymous</p>
-{% endif %}
+      <!-- Description -->
+      <div class="prose prose-lg max-w-none">
+        <div class="text-gray-700 leading-relaxed whitespace-pre-line text-base sm:text-lg">
+          {{ product.description }}
+        </div>
+      </div>
 
+      <!-- Author -->
+      <div class="mt-8 border-t border-gray-200 pt-6">
+        <div class="font-medium text-gray-900">
+          {% if product.user %}
+            <p>Author: {{ product.user.username }}</p>
+          {% else %}
+            <p>Author: Anonymous</p>
+          {% endif %}
+        </div>
+        <p class="text-sm text-gray-500">Author</p>
+      </div>
+    </aside>
+  </div>
+</article>
+    </div>
+</div>
 {% endblock content %}

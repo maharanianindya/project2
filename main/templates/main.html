@@ -1,57 +1,58 @@
 {% extends 'base.html' %}
-{% block content %}
-<h1>{{ app_name }}</h1>
+    {% load static %}
 
-<h5>Name:</h5>
-<p>{{ name }}</p>
+    {% block meta %}
+    <title>Queen Kicks</title>
+    {% endblock meta %}
 
-<h5>Class:</h5>
-<p>{{ class }}</p>
+    {% block content %}
+    {% include 'navbar.html' %}
+    <div class="bg-gray-50 w-full pt-16 min-h-screen">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header Section -->
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">Latest Queen Kicks Products</h1>
+          <p class="text-gray-600">Fresh drops for your game day slay, cute jerseys, comfy kicks, and must have accessories to match your vibe</p>
+        </div>
 
-<a href="{% url 'main:add_product' %}">
-  <button>+ Add Product</button>
-</a>
+        <!-- Filter Section -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
+          <div class="flex space-x-3 mb-4 sm:mb-0">
+            <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter  %} bg-pink-600 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-pink-600 hover:text-white">
+              All Products
+            </a>
+            <a href="?filter=my" class="{% if request.GET.filter == 'my' %} bg-pink-600 text-white{% else %}bg-white text-gray-700 border border-gray-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-pink-600 hover:text-white">
+              My Products
+            </a>
+          </div>
+          {% if user.is_authenticated %}
+            <div class="text-sm text-gray-500">
+              Last login: {{ last_login }}
+            </div>
+          {% endif %}
+        </div>
 
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
-
-<h5>Last login session: {{ last_login }}</h5>
-
-<hr>
-
-<a href="?filter=all">
-    <button type="button">All Products</button>
-</a>
-<a href="?filter=my">
-    <button type="button">My Products</button>
-</a> 
-
-{% if not product_list %}
-<p>No products available in Queen Kicks Store.</p>
-{% else %}
-
-{% for product in product_list %}
-<div>
-    <h2><a href="{% url 'main:product_detail' product.id %}">{{ product.name }}</a></h2>
-
-    <p><b>{{ product.category }}</b>{% if product.is_featured %} | 
-    <b>Featured</b>{% endif %} | <b>Price:</b> Rp {{ product.price }}</p>
-
-    {% if product.thumbnail %}
-    <img src="{{ product.thumbnail }}" alt="thumbnail" width="150" height="100">
-    <br />
-    {% endif %}
-
-    <p>{{ product.description|truncatewords:25 }}...</p>
-
-     <p><a href="{% url 'main:product_detail' product.id %}"><button>Description</button></a></p>
-</div>
-
-<hr>
-{% endfor %}
-
-{% endif %}
-
-{% endblock content %}
+        <!-- Product Grid -->
+        {% if not product_list %}
+          <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+            <div class="w-32 h-32 mx-auto mb-4">
+              <img src="{% static 'image/no-products.png' %}" alt="No products available" class="w-full h-full object-contain">
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No product found</h3>
+            <p class="text-gray-500 mb-6">Be the first to add a Queen Kicks product to the store.</p>
+            <a href="{% url 'main:add_product' %}" class="inline-flex items-center px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700 transition-colors">
+              Add Product
+            </a>
+          </div>
+        {% else %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {% for product in product_list %}
+              {% include 'card_product.html' with product=product %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endblock content %}
 
