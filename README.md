@@ -66,5 +66,52 @@ POSTMAN :
 
 5. First, I activated the virtual environment in the terminal, then added a register() in views.py using UserCreationForm, created register.html, and linked it in urls.py so new users can sign up. Next, I added the login_user() in views.py , created login.html, and linked it in urls.py to require a login to access the main page. Then I implemented logout with logout_user(request), added the route in urls.py, and placed a Logout button on main.html. After that, I imported login_required and applied @login_required(login_url='/login') to show_main() and product_detail() so only authenticated users can access those pages. I created two local user accounts and added three products per account. I then added user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) to the model and ran migrations to link each product to its author. In add_product, I used commit=False, set product_entry.user = request.user, and saved the object so every product belongs to the logged-in user. I also updated show_main, added filter buttons in main.html, and displayed the author’s username in product_detail.html. Next, in login_user I set a last_login cookie with the current timestamp, displayed it in show_main via request.COOKIES.get('last_login', 'Never'), and rendered it in main.html. In logout_user, I removed the last_login cookie before redirecting; after logging in, I refreshed to see the value on the main page and confirmed last_login, sessionid, and csrftoken.
 
-   
+## Assignment 5 
+1. CSS Selector Priority: If multiple CSS selectors target an HTML element, explain the priority order for CSS selector selection
+   1. Origin & Importance
+      • Origin
+      1. Author: CSS comes from front-end developer.
+      2. User: The user of browser can manually set the style for their browser, such as its font style and color.
+      3. User-Agent: The browser serves default style. Different browser provides different style
+      • The importance of a CSS declaration is determined by the !important syntax.
+      Use !important only as a last-resort escape hatch (e.g, to override stubborn third-party styles), because it can make your CSS more brittle.
+   2. Selector Specificity (Selectors)
+      means the weight a CSS selector carries when it competes with others targeting the same element.
+      CSS selectors can belong to one of the following order.
+      The highest order wins.
+      1. Inline styles (anything inside a style tag)
+      2. ID selectors
+      3. Classes selector
+      4. Element selector
+   3. Source Order
+      means when two or more CSS rules have the same importance and the same specificity, the rule that appears later in the code (last in the cascade) will win.
+   4. Initial & inherited properties
+      Initial means a property falls back to its CSS-spec default value (as if nothing had styled it). Inherited means a property takes the computed value from its parent element (commonly       text-related properties like color and font-family).
+2. Why is responsive design important in web application development?
+   People switch between phones, tablets, and laptops constantly, so a responsive layout keeps our app usable, fast, and accessible on any screen, driving better engagement, conversions,      and even SEO since Google favors mobile friendly sites, while also letting us maintain a single adaptive codebase instead of separate “m.” or device specific versions, which cuts          costs and future proofs against new screen sizes.
+   Provide examples of applications that have and haven't implemented responsive design.
+   applications that have implemented responsive design : X and GitHub
+   applications that haven't implemented responsive design : Classic modes of BI tools
+   Explain the reasons behind your examples.
+   X (Twitter) and GitHub implement responsive design because their users jump between phones and desktops, so fluid grids, collapsing sidebars, and touch friendly controls keep reading,      posting, and code review usable everywhere. A single adaptive codebase also lowers maintenance and preserves performance/SEO compared to device-specific versions.
+   By contrast, classic BI tools often remain non-responsive because dense, wide tables and complex dashboards are hard to reflow for small screens, and legacy stacks or “separate mobile      modes” make true responsiveness costly to retrofit.
+3. Explain the differences between margin, border, and padding, and how to implement them
+   Margin is the outer space around an element that pushes it away from other elements.
+   Border is the line that wraps the element’s box, sitting between the margin and the padding.
+   Padding is the inner space between the content and the border, creating breathing room inside the element.
+   How to implement:
+   add them with CSS like this :
+   .box {
+     margin: 20px;          /* space outside */
+     border: 2px solid #000; /* the outline */
+     padding: 15px;          /* space inside */
+   }
+4. Explain the concepts of flexbox and grid layout along with their uses
+   Flexbox is a CSS layout system for arranging items along a single axis, either horizontally or vertically, making it useful for things like navbars or aligning buttons. Grid is a two      dimensional layout system that define rows and columns together, giving precise control over complex page structures.
+5. Explain how you implemented the above checklist step-by-step (not just following the tutorial)
+   I implemented delete and edit functions for products and customized the design using a CSS framework. I redesigned the login, register, add product, edit product, and product detail       pages, made the product list page fully responsive, added an empty state with an empty icon and clear message when no products exist, and used custom product cards where the image is      on the left and the description is on the right, each with Edit and Delete buttons. I also set up a responsive navbar that works on both mobile and desktop.
 
+
+
+
+   
