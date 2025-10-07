@@ -112,6 +112,21 @@ POSTMAN :
    I implemented delete and edit functions for products and customized the design using a CSS framework. I redesigned the login, register, add product, edit product, and product detail       pages, made the product list page fully responsive, added an empty state with an empty icon and clear message when no products exist, and used custom product cards where the image is      on the left and the description is on the right, each with Edit and Delete buttons. I also set up a responsive navbar that works on both mobile and desktop.
 
 
+## Assignment 6 
+1. What is the difference between synchronous request and asynchronous request?
+Synchronous requests block the page until the server replies everything kinda freezes, then refreshes when it’s done.
+Asynchronous requests (AJAX/fetch) run in the background so the page stays responsive and can update parts of the UI without a full reload.
+2. How does AJAX work in Django (request–response flow)?
+A frontend script (via fetch/axios/jQuery) triggers a request to a Django endpoint; the view parses GET/POST/JSON data, performs database and validation logic, and responds with a `JsonResponse`. The JavaScript handler then uses that JSON to update the DOM; for any state-changing method (POST/PUT/DELETE), a valid CSRF token must be included or Django will reject the request.
+3. What are the advantages of using AJAX compared to regular rendering in Django?
+AJAX updates only the parts that changed, no full page reload, so the page stays responsive and typically uses less bandwidth (small JSON instead of full HTML).
+It also reduces server side templating work, supports real-time interactions (live search, inline edits, chat), and preserves on-page state between requests.
+4. How do you ensure security when using AJAX for Login and Register features in Django?
+Perform server-side validation and sanitization using Django’s auth system, and return generic error messages rather than exposing whether a username exists.
+Include the CSRF token in AJAX requests (with `CsrfViewMiddleware`/`@csrf_protect` and `X-CSRFToken` while using `credentials: "same-origin"`), require HTTPS, and configure cookies with `Secure`, `HttpOnly`, and `SameSite`. Apply rate limiting and lockouts for repeated attempts (e.g., django-axes), strictly validate any `next` redirect via `url_has_allowed_host_and_scheme`, and keep CORS restricted to same-origin or a narrowly defined allowlist.
+5. How does AJAX affect user experience (UX) on websites?
+AJAX refreshes just the parts of a page that need it, so users can keep interacting without a full reload. It shortens waits and preserves things like form inputs and scroll position, making the experience feel continuous and less annoying.
+
 
 
    
