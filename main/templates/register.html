@@ -14,32 +14,13 @@
         <p class="text-gray-500">Create your Queen Kicks account</p>
       </div>
 
-      <!-- Form Errors Display -->
-      {% if form.non_field_errors %}
-        <div class="mb-6">
-          {% for error in form.non_field_errors %}
-            <div class="px-4 py-3 rounded text-sm border bg-red-50 border-red-200 text-red-700">
-              {{ error }}
-            </div>
-          {% endfor %}
+      <!-- Error messages container (for AJAX errors) -->
+      <div id="error-container" class="mb-6 hidden">
+        <div class="px-4 py-3 rounded text-sm border bg-red-50 border-red-200 text-red-700" id="error-message">
         </div>
-      {% endif %}
+      </div>
 
-      {% if form.errors %}
-        <div class="mb-6">
-          {% for field, errors in form.errors.items %}
-            {% if field != '__all__' %}
-              {% for error in errors %}
-                <div class="px-4 py-3 rounded text-sm border bg-red-50 border-red-200 text-red-700 mb-2">
-                  <strong>{{ field|title }}:</strong> {{ error }}
-                </div>
-              {% endfor %}
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <form method="POST" action="" class="space-y-5">
+      <form method="POST" action="" id="registerFormPage" class="space-y-5">
         {% csrf_token %}
         
         <div>
@@ -77,12 +58,12 @@
 
         <button 
           type="submit" 
-          class="w-full bg-green-600 text-white font-medium py-3 px-4 rounded hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition duration-200">
+          class="w-full bg-pink-600 text-white font-medium py-3 px-4 rounded hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition duration-200">
           Create Account
         </button>
       </form>
 
-      <!-- Messages Display -->
+      <!-- Messages Display (from Django messages framework) -->
       {% if messages %}
         <div class="mt-6">
           {% for message in messages %}
@@ -106,7 +87,7 @@
       <div class="mt-6 text-center">
         <p class="text-gray-500 text-sm">
           Already have an account? 
-          <a href="{% url 'main:login' %}" class="text-green-600 hover:text-pink-700 font-medium">
+          <a href="{% url 'main:login' %}" class="text-pink-600 hover:text-pink-700 font-medium">
             Sign In
           </a>
         </p>
@@ -115,4 +96,67 @@
     </div>
   </div>
 </div>
+
+<script>
+  function getCSRF(){
+    const m = document.cookie.match(/(?:^|; )csrftoken=([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : "";
+  }
+
+  document.getElementById('registerFormPage')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const username = formData.get('username');
+    const errorContainer = document.getElementById('error-container');
+    const errorMessage = document.getElementById('error-message');
+    
+    // Hide any previous errors
+    errorContainer.classList.add('hidden');
+    
+    try {
+      const res = await fetch("{% url 'main:register_ajax' %}", {
+        method: 'POST',
+        body: formData,
+        headers: { 
+          'X-CSRFToken': getCSRF(), 
+          'X-Requested-With': 'XMLHttpRequest' 
+        },
+        credentials: 'same-origin',
+      });
+
+      const raw = await res.text();
+      let data = {};
+      try { 
+        data = raw ? JSON.parse(raw) : {}; 
+      } catch { 
+        // Not JSON, show generic error
+        errorContainer.classList.remove('hidden');
+        errorMessage.textContent = 'An error occurred. Please try again.';
+        return;
+      }
+
+      if (data.ok) {
+        // Success - show toast and redirect
+        const msg = data.message || `Welcome, ${username}! Your account has been created.`;
+        
+        if (typeof showToast === 'function') {
+          showToast('Success', msg, 'success', 1500);
+          setTimeout(() => window.location.href = "{% url 'main:show_main' %}", 1800);
+        } else {
+          // Fallback if toast doesn't exist
+          window.location.href = "{% url 'main:show_main' %}";
+        }
+      } else {
+        // Error - show error message
+        errorContainer.classList.remove('hidden');
+        errorMessage.textContent = data.message || 'Registration failed. Please try again.';
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
+      errorContainer.classList.remove('hidden');
+      errorMessage.textContent = 'Network error. Please try again.';
+    }
+  });
+</script>
 {% endblock content %}

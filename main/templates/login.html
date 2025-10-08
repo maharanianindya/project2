@@ -13,32 +13,13 @@
         <p class="text-gray-600">Welcome back to Queen Kicks Store</p>
       </div>
 
-      <!-- Form Errors Display -->
-      {% if form.non_field_errors %}
-        <div class="mb-6">
-          {% for error in form.non_field_errors %}
-            <div class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-red-700">
-              {{ error }}
-            </div>
-          {% endfor %}
+      <!-- Error messages container (for AJAX errors) -->
+      <div id="error-container" class="mb-6 hidden">
+        <div class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-red-700" id="error-message">
         </div>
-      {% endif %}
+      </div>
 
-      {% if form.errors %}
-        <div class="mb-6">
-          {% for field, errors in form.errors.items %}
-            {% if field != '__all__' %}
-              {% for error in errors %}
-                <div class="px-4 py-3 rounded-md text-sm border bg-red-50 border-red-200 text-red-700 mb-2">
-                  <strong>{{ field|title }}:</strong> {{ error }}
-                </div>
-              {% endfor %}
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <form method="POST" action="" class="space-y-6">
+      <form method="POST" action="" id="loginFormPage" class="space-y-6">
         {% csrf_token %}
         
         <div>
@@ -70,7 +51,7 @@
         </button>
       </form>
 
-      <!-- Messages Display -->
+      <!-- Messages Display (from Django messages framework) -->
       {% if messages %}
         <div class="mt-6">
           {% for message in messages %}
@@ -102,4 +83,64 @@
     </div>
   </div>
 </div>
+
+<script>
+  function getCSRF(){
+    const m = document.cookie.match(/(?:^|; )csrftoken=([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : "";
+  }
+
+  document.getElementById('loginFormPage')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const username = formData.get('username');
+    const errorContainer = document.getElementById('error-container');
+    const errorMessage = document.getElementById('error-message');
+    
+    try {
+      const res = await fetch("{% url 'main:login_ajax' %}", {
+        method: 'POST',
+        body: formData,
+        headers: { 
+          'X-CSRFToken': getCSRF(), 
+          'X-Requested-With': 'XMLHttpRequest' 
+        },
+        credentials: 'same-origin',
+      });
+
+      const raw = await res.text();
+      let data = {};
+      try { 
+        data = raw ? JSON.parse(raw) : {}; 
+      } catch { 
+        // Not JSON, show generic error
+        errorContainer.classList.remove('hidden');
+        errorMessage.textContent = 'An error occurred. Please try again.';
+        return;
+      }
+
+      if (data.ok) {
+        // Success - show toast and redirect
+        const msg = data.message || `Welcome back, ${username}!`;
+        
+        if (typeof showToast === 'function') {
+          showToast('Success', msg, 'success', 1500);
+          setTimeout(() => window.location.href = "{% url 'main:show_main' %}", 1800);
+        } else {
+          // Fallback if toast doesn't exist
+          window.location.href = "{% url 'main:show_main' %}";
+        }
+      } else {
+        // Error - show error message
+        errorContainer.classList.remove('hidden');
+        errorMessage.textContent = data.message || 'Invalid username or password.';
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      errorContainer.classList.remove('hidden');
+      errorMessage.textContent = 'Network error. Please try again.';
+    }
+  });
+</script>
 {% endblock content %}

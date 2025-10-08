@@ -27,16 +27,18 @@
               <div class="text-sm font-medium text-gray-900">{{ name|default:user.username }}</div>
               <div class="text-xs text-gray-500">{{ npm|default:"Student" }} - {{ class|default:"Class" }}</div>
             </div>
-            <a href="{% url 'main:logout' %}" class="text-red-600 hover:text-red-700 font-medium transition-colors">
-              Logout
-            </a>
+            <button id="logoutBtn"
+                  onclick="ajaxLogout()"
+                  class="text-red-600 hover:text-red-700 font-medium transition-colors">
+            Logout
+          </button>
           {% else %}
-            <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-              Login
-            </a>
-            <a href="{% url 'main:register' %}" class="bg-green-600 hover:bg-pink-700 text-white px-4 py-2 rounded font-medium transition-colors">
-              Register
-            </a>
+             <button onclick="showLoginModal()" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+            Login
+          </button>
+          <button onclick="showRegisterModal()" class="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded font-medium transition-colors">
+            Register
+          </button>
           {% endif %}
         </div>
         
@@ -80,17 +82,19 @@
               <div class="font-medium text-gray-900">{{ name|default:user.username }}</div>
               <div class="text-sm text-gray-500">{{ npm|default:"Student" }} - {{ class|default:"Class" }}</div>
             </div>
-            <a href="{% url 'main:logout' %}" class="block text-red-600 hover:text-red-700 font-medium py-3 transition-colors">
-              Logout
-            </a>
+             <button id="logoutBtnMobile"
+                  onclick="ajaxLogout()"
+                  class="block w-full text-left text-red-600 hover:text-red-700 font-medium py-3 transition-colors">
+            Logout
+          </button>
           {% else %}
             <div class="space-y-3">
-              <a href="{% url 'main:login' %}" class="block text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
-                Login
-              </a>
-              <a href="{% url 'main:register' %}" class="block bg-pink-600 hover:bg-pink-700 text-white font-medium py-3 px-4 rounded text-center transition-colors">
-                Register
-              </a>
+              <button onclick="showLoginModal()" class="block w-full text-left text-gray-600 hover:text-gray-900 font-medium py-3 transition-colors">
+              Login
+            </button>
+            <button onclick="showRegisterModal()" class="block w-full bg-pink-600 hover:bg-pink-700 text-white font-medium py-3 px-4 rounded text-center transition-colors">
+              Register
+            </button>
             </div>
           {% endif %}
         </div>
