@@ -21,4 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),  # direct request to the main view 
+    path('auth/', include('authentication.urls')),
 ]
